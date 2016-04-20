@@ -24,9 +24,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
   end
 
-  config.vm.define "mail", primary: true, autostart: true do |server|
+  config.vm.define "opensmtpd_test", primary: true, autostart: true do |server|
     server.vm.box = "debian/jessie64"
-    server.vm.hostname = 'mail.arenstar.net'
+    server.vm.hostname = 'opensmtpd.arenstar.net'
     server.vm.network :private_network, ip: "192.168.56.100"
     server.vm.provision :shell, :path => "provision.sh"
     server.vm.provision :puppet, :manifests_path => ["vm","/vagrant/puppet"], :manifest_file => "setup.pp", :options => "--modulepath=/etc/puppet/modules --hiera_config /etc/hiera.yaml"

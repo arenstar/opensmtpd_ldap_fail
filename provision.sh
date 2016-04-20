@@ -6,4 +6,5 @@ apt-get update
 apt-get install -y puppet-common puppet ldapscripts git
 sed -i '/templatedir/d' /etc/puppet/puppet.conf
 
+puppet module install puppetlabs-firewall
 puppet module install garethr-docker
