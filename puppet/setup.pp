@@ -14,6 +14,24 @@ node default {
 
 class configure {
 
+  docker::image { 'arenstar/opensmtpd':
+    docker_dir => '/vagrant/docker/opensmtpd'
+  }->
+  docker::run { 'opensmtpd':
+    image              => 'arenstar/opensmtpd',
+    memory_limit       => '64m',
+    ports              => ['25:25','587:587','10024:10024'],
+    hostname           => 'smtp',
+    volumes            => [
+       '/etc/mailname:/etc/mailname:ro',
+       '/vagrant/puppet/files/opensmtpd/smtpd.conf:/etc/smtpd.conf:ro',
+       '/vagrant/puppet/files/opensmtpd/smtpd-ldap.conf:/etc/smtpd-ldap.conf:ro',
+       '/etc/ssl/wildcard_arenstar.net.pem:/etc/wildcard_arenstar.net.pem:ro',
+       '/etc/ssl/wildcard_arenstar.net.key:/etc/wildcard_arenstar.net.key:ro',
+    ],
+    restart_service    => true,
+  }
+
   docker::image { 'arenstar/dovecot':
     docker_dir => '/vagrant/docker/dovecot'
   }->
